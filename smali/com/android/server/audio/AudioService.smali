@@ -7870,6 +7870,8 @@
     invoke-virtual {v4}, Ljava/lang/Integer;->intValue()I
 
     move-result v4
+	
+	goto :goto_td
 
     if-ne v4, v5, :cond_2
 
@@ -8006,6 +8008,7 @@
 
     .line 8421
     .end local v0    # "pm":Landroid/os/PowerManager;
+	:goto_td
     :cond_5
     monitor-exit v3
     :try_end_1

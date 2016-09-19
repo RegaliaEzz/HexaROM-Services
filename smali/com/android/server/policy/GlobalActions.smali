@@ -286,6 +286,8 @@
 
 .field mEmergencyStringId:I
 
+.field private mRebootRecovery:Lcom/android/server/policy/GlobalActions$SinglePressAction;
+
 .field private mGlobalActionsFrameLayout:Landroid/app/GlobalActionsFrameLayout;
 
 .field private mGlobalActionsFrameLayoutSViewCover:Landroid/app/GlobalActionsFrameLayoutSViewCover;
@@ -1466,24 +1468,24 @@
     iput v1, p0, Lcom/android/server/policy/GlobalActions;->mBottomViewSingleItemHeight:I
 
     .line 508
-    const v1, 0x1080980
+    # const v1, 0x1080980
 
-    iput v1, p0, Lcom/android/server/policy/GlobalActions;->mPowerOffIconResId:I
+    # iput v1, p0, Lcom/android/server/policy/GlobalActions;->mPowerOffIconResId:I
 
     .line 509
-    const v1, 0x1080981
+    # const v1, 0x1080981
 
-    iput v1, p0, Lcom/android/server/policy/GlobalActions;->mConfirmPowerOffIconResId:I
+    # iput v1, p0, Lcom/android/server/policy/GlobalActions;->mConfirmPowerOffIconResId:I
 
     .line 510
-    const v1, 0x1080982
+    # const v1, 0x1080982
 
-    iput v1, p0, Lcom/android/server/policy/GlobalActions;->mRestartIconResId:I
+    # iput v1, p0, Lcom/android/server/policy/GlobalActions;->mRestartIconResId:I
 
     .line 511
-    const v1, 0x1080983
+    # const v1, 0x1080983
 
-    iput v1, p0, Lcom/android/server/policy/GlobalActions;->mConfirmRestartIconResId:I
+    # iput v1, p0, Lcom/android/server/policy/GlobalActions;->mConfirmRestartIconResId:I
 
     .line 512
     const v1, 0x108097e
@@ -4842,6 +4844,52 @@
     move-object/from16 v0, p0
 
     iput-object v5, v0, Lcom/android/server/policy/GlobalActions;->mRestart:Lcom/android/server/policy/GlobalActions$SinglePressAction;
+	
+	new-instance v4, Lcom/android/server/policy/GlobalActions$46;
+
+    move-object/from16 v0, p0
+
+    iget-object v0, v0, Lcom/android/server/policy/GlobalActions;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    const-string v1, "tw_ic_do_rebootrecovery" 
+
+    const-string v2, "drawable" 
+
+    const-string v3, "android"
+
+    invoke-virtual {v0, v1, v2, v3}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v5 
+
+    move-object/from16 v0, p0
+
+    iget-object v0, v0, Lcom/android/server/policy/GlobalActions;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    const-string v1, "tw_ic_do_rebootrecovery"
+
+    const-string v2, "string"
+
+    const-string v3, "android"
+
+    invoke-virtual {v0, v1, v2, v3}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v6
+
+    move-object/from16 v0, p0
+
+    invoke-direct {v4, v0, v5, v6}, Lcom/android/server/policy/GlobalActions$46;-><init>(Lcom/android/server/policy/GlobalActions;II)V
+
+    move-object/from16 v0, p0
+
+    iput-object v4, v0, Lcom/android/server/policy/GlobalActions;->mRebootRecovery:Lcom/android/server/policy/GlobalActions$SinglePressAction; 
 
     .line 1550
     new-instance v4, Ljava/util/ArrayList;
@@ -4955,6 +5003,22 @@
     move-object/from16 v0, p0
 
     invoke-direct {v0, v4, v5, v6, v7}, Lcom/android/server/policy/GlobalActions;->addDialogItemsIfEnabled(ILcom/android/server/policy/GlobalActions$Action;Ljava/util/ArrayList;Z)Z
+	
+	const/16 v4, 0x200
+
+    move-object/from16 v0, p0
+
+    iget-object v5, v0, Lcom/android/server/policy/GlobalActions;->mRebootRecovery:Lcom/android/server/policy/GlobalActions$SinglePressAction;
+
+    move-object/from16 v0, p0
+
+    iget-object v6, v0, Lcom/android/server/policy/GlobalActions;->mItems:Ljava/util/ArrayList;
+
+    const/4 v7, 0x1
+
+    move-object/from16 v0, p0
+
+    invoke-direct {v0, v4, v5, v6, v7}, Lcom/android/server/policy/GlobalActions;->addDialogItemsIfEnabled(ILcom/android/server/policy/GlobalActions$Action;Ljava/util/ArrayList;Z)Z 
 
     .line 1568
     const-string v4, "content://com.sec.knox.provider2/KnoxCustomManagerService1"
@@ -5345,7 +5409,7 @@
 
     move-result v4
 
-    if-eqz v4, :cond_14
+    if-eqz v4, :cond_sid
 
     .line 1634
     move-object/from16 v0, p0
@@ -5359,9 +5423,30 @@
     invoke-virtual {v4, v5}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
     goto/16 :goto_7
+	
+	:cond_sid
+    const-string/jumbo v4, "rebootrecovery"
+
+    invoke-virtual {v4, v11}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_sid1
+
+    move-object/from16 v0, p0
+
+    iget-object v4, v0, Lcom/android/server/policy/GlobalActions;->mItems:Ljava/util/ArrayList;
+
+    move-object/from16 v0, p0
+
+    iget-object v5, v0, Lcom/android/server/policy/GlobalActions;->mRebootRecovery:Lcom/android/server/policy/GlobalActions$SinglePressAction;
+
+    invoke-virtual {v4, v5}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    goto/16 :goto_7
 
     .line 1635
-    :cond_14
+    :cond_sid1
     const-string/jumbo v4, "silent"
 
     invoke-virtual {v4, v11}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
